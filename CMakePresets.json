@@ -1,0 +1,124 @@
+{
+    "version": 3,
+    "cmakeMinimumRequired": {
+        "major": 3,
+        "minor": 28,
+        "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "use-ninja-multiconfig",
+            "hidden": true,
+            "generator": "Ninja Multi-Config",
+            "binaryDir": "${sourceDir}/out/build/${presetName}",
+            "installDir": "${sourceDir}/out/install/${presetName}",
+            "cacheVariables": {
+                "CMAKE_EXPORT_COMPILE_COMMANDS": "ON",
+                "CMAKE_CONFIGURATION_TYPES": "Debug;Release"
+            }
+        },
+        {
+            "name": "use-gcc-windows-64",
+            "hidden": true,
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            },
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
+            },
+            "environment": {
+                "PATH": "c:\\msys64\\mingw64\\bin;$penv{PATH}"
+            },
+            "vendor": {
+                "microsoft.com/VisualStudioSettings/CMake/1.0": {
+                    "intelliSenseMode": "linux-gcc-x64"
+                }
+            }
+        },
+        {
+            "name": "use-gcc-windows-32",
+            "hidden": true,
+            "condition": {
+                "type": "equals",
+                "lhs": "${hostSystemName}",
+                "rhs": "Windows"
+            },
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
+            },
+            "environment": {
+                "PATH": "c:\\msys64\\mingw32\\bin;$penv{PATH}"
+            },
+            "vendor": {
+                "microsoft.com/VisualStudioSettings/CMake/1.0": {
+                    "intelliSenseMode": "linux-gcc-x86"
+                }
+            }
+        },
+        {
+            "name": "use-gcc-linux-64",
+            "hidden": true,
+            "condition": {
+                "type": "inList",
+                "string": "${hostSystemName}",
+                "list": [
+                    "Linux",
+                    "Darwin"
+                ]
+            },
+            "cacheVariables": {
+                "CMAKE_C_COMPILER": "gcc",
+                "CMAKE_CXX_COMPILER": "g++"
+            },
+            "vendor": {
+                "microsoft.com/VisualStudioSettings/CMake/1.0": {
+                    "intelliSenseMode": "linux-gcc-x64"
+                }
+            }
+        },
+        {
+            "name": "gcc-win64",
+            "displayName": "gcc-win64",
+            "description": "GCC Ninja MultiConfig 64bit",
+            "inherits": [
+                "use-ninja-multiconfig",
+                "use-gcc-windows-64"
+            ]
+        },
+        {
+            "name": "gcc-win32",
+            "displayName": "gcc-win32",
+            "description": "GCC Ninja MultiConfig 32bit",
+            "inherits": [
+                "use-ninja-multiconfig",
+                "use-gcc-windows-32"
+            ]
+        }
+    ],
+    "buildPresets" : [
+        {
+          "name": "gcc-win64-Debug",
+          "configurePreset": "gcc-win64",
+          "configuration": "Debug"
+        },
+        {
+            "name": "gcc-win64-Release",
+            "configurePreset": "gcc-win64",
+            "configuration": "Release"
+        },
+        {
+            "name": "gcc-win32-Debug",
+            "configurePreset": "gcc-win32",
+            "configuration": "Debug"
+        },
+        {
+              "name": "gcc-win32-Release",
+              "configurePreset": "gcc-win32",
+              "configuration": "Release"
+        }
+      ]
+}
